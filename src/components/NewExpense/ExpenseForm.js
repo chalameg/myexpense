@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './ExpenseForm.css';
 
 const ExpenseForm = (props) => {
+    const [isFormVisible, setIsFormVisible] = useState(false);
     const [data, setData] = useState({
         title:"",
         amount:0.01,
@@ -33,14 +34,15 @@ const ExpenseForm = (props) => {
                 amount:"", 
                 date:""
             })
-
+        setIsFormVisible(false)
         props.onSaveExpenseData(data)
         // console.log(data)
     }
 
   return (
     <div>
-        <form onSubmit={submitHandler}>
+        {
+            isFormVisible && <form onSubmit={submitHandler}>
             <div className='new-expense__controls'>
                 <div className='new-expense__control'>
                     <label>Title</label>
@@ -58,10 +60,14 @@ const ExpenseForm = (props) => {
                 </div>
 
                 <div className='new-expense__actions'>
+                    <button onClick={() => setIsFormVisible(false)}>Cancel</button>
                     <button type='submit'>Add Expense</button>
                 </div>
             </div>
         </form>
+        }
+
+        {!isFormVisible && <button onClick={() => setIsFormVisible(true)}>Add New Expense</button>}
     </div>
   )
 }
